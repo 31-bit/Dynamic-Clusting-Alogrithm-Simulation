@@ -23,6 +23,7 @@ figure;
 hold on;
 
 for i = 1:length(corn_ENU_x)
+
     cluster_center_x = mean(cluster_temp_x);
     cluster_center_y = mean(cluster_temp_y);
     % 判读是哪个sensor
@@ -39,7 +40,7 @@ for i = 1:length(corn_ENU_x)
             continue
         end
         which_sensor = 2;
-    end
+    end 
     
 
     if isempty(cluster_temp_x)
@@ -55,7 +56,7 @@ for i = 1:length(corn_ENU_x)
                 
             % select last cluster best data, then save to lib
             [max_angle_cluster, index_in_cluster] = max(cluster_angle);
-            if (max_angle_cluster < 2) || ( length(cluster_temp_x) <3 )
+            if (max_angle_cluster < 2) 
                 cluster_temp_x = [corn_ENU_x(i)];
                 cluster_temp_y = [corn_ENU_y(i)];
                 cluster_angle = [angle_temp(i)];
@@ -64,7 +65,7 @@ for i = 1:length(corn_ENU_x)
 
             corn_coordinates_all = ...
             [corn_coordinates_all;cluster_temp_x(index_in_cluster), cluster_temp_y(index_in_cluster)];
-            corn_index_all = [corn_index_all, i];
+            corn_index_all = [corn_index_all, i-length(cluster_angle)+index_in_cluster];
             which_sensor_all = [which_sensor_all, which_sensor_last];
             cluster_centre_all = [cluster_centre_all; cluster_center_x,cluster_center_y];
 

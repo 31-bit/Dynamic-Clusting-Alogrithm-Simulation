@@ -16,7 +16,7 @@ sensor1af = af(2:end);
 index = 1:length(sensor19f);
 % 创建地图
 figure;
-scatter(corn_ENU_x,corn_ENU_y,MarkerFaceColor =[0.8500 0.3250 0.0980])
+scatter(corn_ENU_x,corn_ENU_y,MarkerFaceColor =[0.8500 0.3250 0.0980]);
 hold on;
 plot(corn_ENU_x,corn_ENU_y, 'black')
 hold off;

@@ -59,7 +59,7 @@ for i = 1:length(corn_ENU_x)
                 
             % select last cluster best data, then save to lib
             [max_angle_cluster, index_in_cluster] = max(cluster_angle);
-            if (angle_max < 2) || ( cluster_cnt<3 )
+            if (angle_max < 2)
                 cluster_center_x = corn_ENU_x(i);
                 cluster_center_y = corn_ENU_y(i);
                 cluster_cnt = 1;
@@ -71,7 +71,7 @@ for i = 1:length(corn_ENU_x)
 
             corn_coordinates_op_all = ...
             [corn_coordinates_op_all;  angle_coordinates ];
-            corn_index_all = [corn_index_all, i];
+            corn_index_all = [corn_index_all, i-length(cluster_angle)+index_in_cluster];
             which_sensor_all = [which_sensor_all, which_sensor_last];
             cluster_centre_all = [cluster_centre_all; cluster_center_x,cluster_center_y];
                        

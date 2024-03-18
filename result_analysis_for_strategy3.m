@@ -8,9 +8,7 @@ hold on;
 plot(corn_ENU_x,corn_ENU_y, 'black')
 scatter(corn_coordinates_all(1:end,1),corn_coordinates_all(1:end,2),30,"green","filled","d")
 legend("采集数据坐标", "采集数据时间线","玉米杆预测点");
-
-
- scatter(path_reference(1:end,1), path_reference(1:end,2),30,"magenta")
+%scatter(path_reference(1:end,1), path_reference(1:end,2),30,"magenta")
 hold off;
 
 % 创建地图
