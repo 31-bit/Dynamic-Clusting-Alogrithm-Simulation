@@ -1,0 +1,64 @@
+%  模拟直线的效果
+
+clear all;
+close all;
+a_csvFilePath = 'Corn_pos_low_speed1km_a.csv';
+[time,hour,minutes,seconds,a_origin_LLA_x, a_origin_LLA_y, a_origin_LLA_z,a_corn_x,a_corn_y,...
+    a_veh_x,a_veh_y, a_control_angle,a_lateral_error, a_heading_error,a_velocity,a_heading] = readvars(a_csvFilePath);
+
+fg = figure(1)
+% 设置figure的宽度和高度，单位为英寸
+set(gcf, 'Position', [100, 100, 1500, 800]); % 位置[x, y, 宽度, 高度]
+
+hold on;
+xmin = 0; xmax =35; ymin = -5; ymax = 5;
+axis([xmin,xmax,ymin,ymax]);
+axis equal;
+
+
+
+% 多项式拟合的项数
+degree = 2; % 这里是一个示例，可以根据需要修改
+NUM_POINTS_FOR_FIT = 20;
+DIST_OF_TARGET_IN_X = 2;
+% clear duplicate corn point position
+corn_pos =[a_corn_x(1), a_corn_y(1)];
+for i = 2:length(a_corn_x)
+    if a_corn_x(i) ~= corn_pos(end,1)
+        corn_pos = [corn_pos; a_corn_x(i), a_corn_y(i)]
+    end
+end
+line = []
+for i = 5: length(corn_pos)
+    % 绘制第i个点
+    x = corn_pos(1:i,1);
+    y = corn_pos(1:i,2);
+    scatter(x, y, 'black','filled');
+    hold on;
+    axis([xmin,xmax,ymin,ymax]);
+    axis equal;
+    line = [corn_pos(1:i, 1), corn_pos(1:i,2)];
+    if  i > NUM_POINTS_FOR_FIT
+        line = [corn_pos(i-NUM_POINTS_FOR_FIT:i, 1), corn_pos(i-NUM_POINTS_FOR_FIT:i,2)];
+    end
+    % 多项式拟合
+    coefficients = polyfit(line(:,1), line(:,2), degree);
+    
+    % 生成拟合后的曲线 
+    x_fit = linspace(min(line(:,1)), max(line(:,1)+DIST_OF_TARGET_IN_X), 1000); % 生成用于绘制曲线的更多点
+    y_fit = polyval(coefficients, x_fit);
+    plot(x_fit, y_fit, '-', 'DisplayName', '拟合曲线');
+    pause(0.5);
+    hold off;
+    
+    % 如果不是最后一个点，清除前面的渐进线
+    if i <length(corn_pos)
+        scatter(x, y, 'black','filled');
+        hold on;
+        axis([xmin,xmax,ymin,ymax]);
+        axis equal; 
+        plot(x_fit,y_fit)
+        hold off;
+    end
+end
+

@@ -34,15 +34,14 @@ y_fit = polyval(coefficients, x_fit);
 
 % 绘制原始数据和拟合曲线
 figure;
-plot(x, y, 'o', 'DisplayName', '原始数据');
+plot(x(1:27), y(1:27), 'o', 'DisplayName', '原始数据');
 hold on;
 plot(x_fit, y_fit, '-', 'DisplayName', '拟合曲线');
 legend('show');
-xlabel('x');
+xlabel('x'); 
 ylabel('y');
 title('高斯多项式拟合');
 
 % 输出多项式系数
 fprintf('拟合多项式系数:\n');
 disp(coefficients);
-
